@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"strings"
 )
@@ -23,17 +24,14 @@ func separateAndPush(sep string) []FormattedVar {
 	return f
 }
 
-func saveToJSON(f *[]FormattedVar, filename string) {
-	file, err := os.Create(filename + ".json")
+func saveToJSON(f []FormattedVar, filename string) {
+	bytes, err := json.MarshalIndent(f, "", "\t")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	defer file.Close()
-	writer := json.NewEncoder(file)
-
-	err = writer.Encode(f)
+	err = ioutil.WriteFile(filename+".json", bytes, 0644)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -42,6 +40,6 @@ func saveToJSON(f *[]FormattedVar, filename string) {
 
 func main() {
 	formattedVars := separateAndPush("=")
-	fmt.Printf("%+v", formattedVars[2])
-	saveToJSON(&formattedVars, "env")
+	//fmt.Printf("%+v", formattedVars[2])
+	saveToJSON(formattedVars, "env")
 }
