@@ -40,6 +40,5 @@ func saveToJSON(f []FormattedVar, filename string) {
 
 func main() {
 	formattedVars := separateAndPush("=")
-	//fmt.Printf("%+v", formattedVars[2])
 	saveToJSON(formattedVars, "env")
 }
