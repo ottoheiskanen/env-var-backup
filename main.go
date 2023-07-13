@@ -13,7 +13,7 @@ type FormattedVar struct {
 	Value    string `json:"value"`
 }
 
-func separateAndPush(sep string) []FormattedVar {
+func getVariables(sep string) []FormattedVar {
 	var f []FormattedVar
 	for _, env := range os.Environ() {
 		pair := strings.SplitN(env, sep, 2)
@@ -39,6 +39,6 @@ func saveToJSON(f []FormattedVar, filename string) {
 }
 
 func main() {
-	formattedVars := separateAndPush("=")
+	formattedVars := getVariables("=")
 	saveToJSON(formattedVars, "env")
 }
